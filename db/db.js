@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
+const user = require('../api/model/user');
 
-const connect = async () => {
-    await mongoose.connect("mongodb://localhost:27017/wdv3322")
+const connect = async (err) => {
+    await mongoose.connect(process.env.mongoDBURL)
+        if (err) {
+            console.error("Error: ", err.message);
+        }
+        else {
+            console.log("MongoDB connection established.");
+        }   
 };
 
 const findUser = async (data) => { return await user.findOne(data).exec() };

@@ -1,5 +1,5 @@
-const { connect, disconnect, findUser, saveUser } =  require('./__mocks__/db');
-// const { findUser, saveUser } = require('../db/db');
+// const { connect, disconnect, findUser, saveUser } =  require('./__mocks__/db');
+const { connect, disconnect, findUser, saveUser } = require('../db/db');
 const User = require('../api/model/user');
 const mongoose = require('mongoose');
 
@@ -22,6 +22,8 @@ describe( "Testing creating/saving a user and finding a user", () => {
             password: "password"
         });
 
+        const user = await saveUser(newUser);
+
         expect(user).toEqual(expect.objectContaining({
             firstName: "Naomi",
             lastName: "Thompson",
@@ -32,12 +34,12 @@ describe( "Testing creating/saving a user and finding a user", () => {
             email: "nameowmi@outlook.com",
             password: "password"
         }));
-        // expect(response.status).toEqual(200);
+        expect(user).toHaveProperty('_id');
     });
 
-    test("find user", () => {
-        const result = findUser({email: "nameowmi@outlook.com"});
-        expect(result).toEqual(expect.objectContaining({
+    test("find user", async () => {
+        const user = await findUser({email: "nameowmi@outlook.com"});
+        expect(user).toEqual(expect.objectContaining({
             firstName: "Naomi",
             lastName: "Thompson",
             address: "255 N 5th St",
@@ -47,7 +49,7 @@ describe( "Testing creating/saving a user and finding a user", () => {
             email: "nameowmi@outlook.com",
             password: "password"
         }));
-        // expect(response.status).toEqual(200);
+        expect(user).toHaveProperty('_id');
     });
 });
 
