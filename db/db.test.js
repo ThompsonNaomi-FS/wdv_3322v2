@@ -1,4 +1,3 @@
-// const { connect, disconnect, findUser, saveUser } =  require('./__mocks__/db');
 const { connect, disconnect, findUser, saveUser } = require('../db/db');
 const User = require('../api/model/user');
 const mongoose = require('mongoose');
