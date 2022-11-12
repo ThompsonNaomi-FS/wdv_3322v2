@@ -4,8 +4,12 @@ const { default: mongoose } = require("mongoose");
 const router = express.Router();
 const { findUser, saveUser } = require('../../db/db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const checkAuth = require('../../auth/checkAuth');
 
 const user = {};
+
+router.use(express.json());
 
 router.post('/signup', (req,res) => {
     findUser({email: req.body.email})
@@ -40,6 +44,11 @@ router.post('/signup', (req,res) => {
 });
 
 router.post('/login', (req, res) => {
+    const email = req.body.email;
+    const firstName = req.body.firstName;
+    const password = req.body.password;
+    const id = req.body.id;
+
     findUser({email: req.body.email})
     .then(result => {
         if(!result){
@@ -47,17 +56,19 @@ router.post('/login', (req, res) => {
                 message: "That email address is not in our system! Please sign up and try again."
             });
         } else {
-            bcrypt.compare(req.body.password, user.password, (err, result) => {
+            bcrypt.compare(password, user.password, (err, result) => {
                 if(err) return res.status(501).json({ message: err.message });
                 if(result){
+                    const token = jwt.sign({email: email, firstName:firstName, id:id }, process.env.jwt_key);
                     res.status(200).json({ 
                         message: "Authorization Successful!",
-                        result: result,
+                        email: email,
+                        firstName: firstName,
+                        token: token
                     });
                 } else {
                     res.status(401).json({ 
-                        message: "Authorization Failed!",
-                        result: result,
+                        message: "Authorization Failed!"
                 });
                 }
             });
@@ -65,28 +76,9 @@ router.post('/login', (req, res) => {
     })
 });
 
-router.get('/profile', (req, res) => {
-    findUser({email: req.body.email})
-    .then(result => {
-        if(result){
-            res.status(200).json({
-                message: "User Profile",
-                user: {
-                    "ID": result._id,
-                    "First Name": result.firstName,
-                    "Last Name": result.lastName,
-                    "Address": result.address,
-                    "City": result.city,
-                    "State": result.state,
-                    "Zip": result.zip,
-                    "Email": result.email,
-                    "Password": result.password
-                }
-            })
-        } else {
-            res.status(409).json({ message: "Please log in to view your profile." })
-        }
-    })
+router.get('/profile', checkAuth, (req, res, next) => {
+    // findUser({email: req.body.email})
+    res.status(200).json({ message: req.userData })
 }); 
 
 module.exports = router;
