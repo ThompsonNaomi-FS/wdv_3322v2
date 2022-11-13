@@ -7,6 +7,7 @@ module.exports = (req, res, next) => {
     const [bearer, token] = req.headers.authorization.split(' ');
     const decoded = jwt.verify(token, process.env.jwt_key);
     req.userData = decoded;
+    // console.log(decoded)
     next();
     } catch (error) {
         res.status(401).json({ message: 'Authorization Failed' });
