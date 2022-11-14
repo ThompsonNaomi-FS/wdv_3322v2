@@ -46,7 +46,11 @@ router.post('/signup', (req,res) => {
                                 message: "Signup failed. Please try again."
                             })
                         } else {
-                            res.status(200).json({ message: `User with email of ${req.body.email} created successfully!` })
+                            res.status(200).json({ 
+                                message: `User with email of ${newUser.email} created successfully!`,
+                                email: newUser.email,
+                                id: newUser._id
+                            })
                         }
                     });
                 }
