@@ -73,7 +73,7 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, user.password, (err, result) => {
                 if(err) return res.status(501).json({ message: err.message });
                 if(result){
-                    const token = jwt.sign({email: profile.result.email, firstName: profile.result.firstName, id: profile.result._id }, process.env.jwt_key);
+                    const token = jwt.sign({email: profile.result.email, firstName: profile.result.firstName, lastName: profile.result.lastName, id: profile.result._id }, process.env.jwt_key);
                     res.status(200).json({ 
                         message: `Authorization Successful! Logged in as ${profile.result.firstName} `,
                         token: token
