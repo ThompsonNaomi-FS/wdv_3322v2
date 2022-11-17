@@ -18,10 +18,6 @@ router.post('/signup', (req,res) => {
             res.status(409).json({
                 message: "That email address is already in use! Please try logging in."
             });
-        } else if (!req.body.firstName || !req.body.lastName || !req.body.address || !req.body.city || !req.body.state || !req.body.zip || !req.body.email || !req.body.password){
-            res.status(409).json({
-                message: 'Please make sure all fields are filled out.'
-            });
         } else {
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if(err){
@@ -78,7 +74,6 @@ router.post('/login', (req, res) => {
                         message: `Authorization Successful! Logged in as ${profile.result.firstName} `,
                         token: token
                     });
-                    console.log(token)
                 } else {
                     res.status(401).json({ 
                         message: "Authorization Failed!"
