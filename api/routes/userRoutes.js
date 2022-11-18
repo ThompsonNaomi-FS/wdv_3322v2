@@ -42,7 +42,7 @@ router.post('/signup', (req,res) => {
                                 message: "Signup failed. Please try again."
                             })
                         } else {
-                            res.status(200).json({ 
+                            res.status(201).json({ 
                                 message: `User with email of ${newUser.email} created successfully!`,
                                 email: newUser.email,
                                 id: newUser._id
@@ -60,18 +60,16 @@ router.post('/login', (req, res) => {
 
     findUser({email: req.body.email})
     .then(result => {
-        if(!result){
-            res.status(401).json({
-                message: "That email address is not in our system! Please sign up and try again."
-            });
-        } else {
-            const profile = {result};
+        console.log(result)
+        if(result){
+            const profile = {result}; 
             bcrypt.compare(password, user.password, (err, result) => {
                 if(err) return res.status(501).json({ message: err.message });
                 if(result){
                     const token = jwt.sign({email: profile.result.email, firstName: profile.result.firstName, lastName: profile.result.lastName, id: profile.result._id }, process.env.jwt_key);
                     res.status(200).json({ 
-                        message: `Authorization Successful! Logged in as ${profile.result.firstName} `,
+                        message: `Authorization Successful!`,
+                        name: profile.result.firstName,
                         token: token
                     });
                 } else {
@@ -80,12 +78,16 @@ router.post('/login', (req, res) => {
                 });
                 }
             });
+        } else {
+            res.status(401).json({
+                message: "That email address is not in our system! Please sign up and try again."
+            });
         }
     })
 });
 
 router.get('/profile', checkAuth, (req, res, next) => {
-    res.status(200).json({ message: req.userData })
+    res.status(200).json({ message: req.userData})
 }); 
 
 module.exports = router;

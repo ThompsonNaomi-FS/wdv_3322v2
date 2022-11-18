@@ -96,12 +96,33 @@
                         "description": "Unable to Signup"
                     }
                 }
-            },
-            "get":{
+            }
+        },
+        "/login":{
+            "post":{
                 "tags": [
-                    "Get Profile"
+                    "Login"
                 ],
-                "summary": "Get your Profile",
+                "summary": "User login",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "email": {
+                                        "type": "string",
+                                        "default": "nameowmi@outlook.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "password123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Successful"
@@ -113,10 +134,36 @@
                         "description": "Not Found"
                     },
                     "500": {
-                        "description": "Unable to Signup"
+                        "description": "Unable to Login"
                     },
                     "501": {
-                        "description": "Unable to Signup"
+                        "description": "Unable to Login"
+                    }
+                }
+            }
+        },
+        "/profile":{
+            "get":{
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "User Profile",
+                
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "201": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to show Profile"
+                    },
+                    "501": {
+                        "description": "Unable to show Profile"
                     }
                 }
             }
