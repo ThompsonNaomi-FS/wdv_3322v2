@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const userRoute = require('../api/routes/userRoutes');
+const swaggerUi = require('swagger-ui-express');
+const options = require('../config/swaggerOptions');
 
 // middleware for routers first (use)
 app.use(express.json());
@@ -16,6 +18,8 @@ app.get('/', (req,res) => {
 
 // router
 app.use('/users', userRoute);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(options));
 
 // errors: use middleware for errors and bad paths
 app.use((req, res, next) => {
