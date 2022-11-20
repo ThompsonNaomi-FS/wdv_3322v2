@@ -1,0 +1,172 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+        "title": "User API Docs",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Naomi Thompson",
+            "email": "nameowmi@outlook.com",
+            "url": "http://nschmitt.com"
+        }
+    },
+    "servers": [
+        {
+        "url": "http://localhost:3001/users",
+        "description": "Local Server"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+        "bearerAuth": []
+        }
+    ],
+    "paths": {
+        "/signup":{
+            "post":{
+                "tags": [
+                    "Signup"
+                ],
+                "summary": "User signup",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "firstName":{
+                                        "type": "string",
+                                        "default": "Naomi"
+                                    }, 
+                                    "lastName":{
+                                        "type": "string",
+                                        "default": "Thompson"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "default": "255 N 5th St"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "default": "Ulysses"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "default": "NE"
+                                    },
+                                    "zip": {
+                                        "type": "number",
+                                        "default": "68669"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "default": "nameowmi@outlook.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "password123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "201": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to Signup"
+                    },
+                    "501": {
+                        "description": "Unable to Signup"
+                    }
+                }
+            }
+        },
+        "/login":{
+            "post":{
+                "tags": [
+                    "Login"
+                ],
+                "summary": "User login",
+                "requestBody":{
+                    "content": {
+                        "application/json": {
+                            "schema":{
+                                "type": "object",
+                                "properties":{
+                                    "email": {
+                                        "type": "string",
+                                        "default": "nameowmi@outlook.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "password123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "201": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to Login"
+                    },
+                    "501": {
+                        "description": "Unable to Login"
+                    }
+                }
+            }
+        },
+        "/profile":{
+            "get":{
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "User Profile",
+                
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "201": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Unable to show Profile"
+                    },
+                    "501": {
+                        "description": "Unable to show Profile"
+                    }
+                }
+            }
+        }
+    }
+}
