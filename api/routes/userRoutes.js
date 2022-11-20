@@ -55,12 +55,11 @@ router.post('/signup', (req,res) => {
     })
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
     const password = req.body.password;
 
     findUser({email: req.body.email})
     .then(result => {
-        console.log(result)
         if(result){
             const profile = {result}; 
             bcrypt.compare(password, user.password, (err, result) => {
@@ -69,7 +68,7 @@ router.post('/login', (req, res) => {
                     const token = jwt.sign({email: profile.result.email, firstName: profile.result.firstName, lastName: profile.result.lastName, id: profile.result._id }, process.env.jwt_key);
                     res.status(200).json({ 
                         message: `Authorization Successful!`,
-                        name: profile.result.firstName,
+                        firstName: profile.result.firstName,
                         token: token
                     });
                 } else {
@@ -82,7 +81,7 @@ router.post('/login', (req, res) => {
             res.status(401).json({
                 message: "That email address is not in our system! Please sign up and try again."
             });
-        }
+        } 
     })
 });
 

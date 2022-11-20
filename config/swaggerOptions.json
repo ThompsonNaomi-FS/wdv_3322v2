@@ -1,7 +1,7 @@
 {
     "openapi":"3.0.2",
     "info": {
-        "title": "Post API Docs",
+        "title": "User API Docs",
         "version": "1.0.0",
         "contact": {
             "name": "Naomi Thompson",
